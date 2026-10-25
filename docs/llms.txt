@@ -6,7 +6,7 @@ The page for people is https://pengupunk.github.io/pengupunk/ ; this file is all
 
 ## Contracts (BNB Chain, chain id 56)
 
-- NFT, ERC-721 "Pengupunk" (PUNK): 0x5e08456D4583F057f542DC0a07aC6AF922687DF8
+- NFT, ERC-721 "Pengupunk" (PUNK): 0x3429E31B286838010e0232c899309332451f2482
 - Agent ID gate; minting wallet needs balanceOf > 0: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F
 - Treasury (receives payment directly): 0x8F3A3882Bfab76538f783c1C63Bf400eBC59CFfc
 
@@ -39,7 +39,13 @@ There is no owner, no pause, no withdraw, no setPrice. All rules were fixed at d
     revealBlock() -> uint256                       0x66bb81c7
     provenanceCommit() -> bytes32                  0x81cd4ce7
     tierOf(uint256) -> string                      0x53f96df2
-    traitsOf(uint256) -> (string[6], uint256)      0x5efab6e4
+    rarityScoreOf(uint256) -> uint256              0x062ed425
+    mohawkOf(uint256) -> string                    0x362814a6
+    shadesOf(uint256) -> string                    0x88d9f71c
+    collarOf(uint256) -> string                    0x53acad5c
+    accessoryOf(uint256) -> string                 0xef25d975
+    backgroundOf(uint256) -> string                0xc4716586
+    beakOf(uint256) -> string                      0x2651e417
     tokenURI(uint256) -> string                    0xc87b56dd
 
 Always call priceFor(wallet, qty) before sending a transaction. Send at least that amount; any
@@ -60,7 +66,7 @@ Revert reasons: "not agent", "max per wallet", "sold out", "qty", "underpaid".
 
 ## Reveal
 
-- revealBlock was fixed at deploy: 129695449. Before that block, traits do not exist.
+- revealBlock was fixed at deploy: 129709008. Before that block, traits do not exist.
 - provenanceCommit = keccak256(secret), published at deploy.
 - After revealBlock anyone may call reveal(bytes32 secret) 0x701fd0f1 once. The contract checks
   keccak256(secret) == provenanceCommit and derives the seed from blockhash(revealBlock) + secret,
