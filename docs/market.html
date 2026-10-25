@@ -37,6 +37,13 @@
     <div class="out" id="wallet">belum terhubung</div>
     <button id="connect">Connect wallet</button>
     <button class="alt" id="bscscan">BscScan</button>
+    <div id="picker" style="display:none;margin-top:14px;border-top:1px solid var(--line);padding-top:14px">
+      <div style="font-size:12px;color:var(--dim);margin-bottom:10px">Pilih wallet:</div>
+      <button id="w-binance" style="width:100%;margin-top:0">Buka di Binance app</button>
+      <button id="w-metamask" class="alt" style="width:100%">Buka di MetaMask</button>
+      <button id="w-copy" class="alt" style="width:100%">Salin link halaman ini</button>
+      <div class="out" id="pickerout">Di desktop: pakai ekstensi wallet (MetaMask/Rabby), lalu reload halaman ini.</div>
+    </div>
   </div>
 
   <div class="card">
@@ -102,16 +109,43 @@ let signer = null, account = null;
 const $ = (id) => document.getElementById(id);
 const fmt = (w) => ethers.formatEther(w) + " BNB";
 
+const PAGE = location.href.split("#")[0];
+
+function deepLinks() {
+  const bare = location.host + location.pathname;
+  return {
+    binance: "https://app.binance.com/cedefi/dapp?url=" + encodeURIComponent(PAGE),
+    metamask: "https://metamask.app.link/dapp/" + bare
+  };
+}
+
+async function connectInjected() {
+  await window.ethereum.request({ method: "eth_requestAccounts" });
+  const p = new ethers.BrowserProvider(window.ethereum);
+  signer = await p.getSigner();
+  account = await signer.getAddress();
+  $("wallet").innerHTML = "<b>" + account + "</b>";
+  $("picker").style.display = "none";
+}
+
 $("connect").onclick = async () => {
-  if (!window.ethereum) { $("wallet").textContent = "Tidak ada wallet di browser ini. Buka di dalam Binance app / MetaMask, atau pakai BscScan."; return; }
-  try {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
-    const p = new ethers.BrowserProvider(window.ethereum);
-    signer = await p.getSigner();
-    account = await signer.getAddress();
-    $("wallet").innerHTML = "<b>" + account + "</b>";
-  } catch (e) { $("wallet").textContent = "gagal: " + (e.message || e); }
+  if (window.ethereum) {
+    try { await connectInjected(); }
+    catch (e) { $("wallet").textContent = "gagal connect: " + (e.shortMessage || e.message || e); }
+    return;
+  }
+  const l = deepLinks();
+  $("w-binance").onclick = () => window.location.href = l.binance;
+  $("w-metamask").onclick = () => window.location.href = l.metamask;
+  $("w-copy").onclick = () => navigator.clipboard.writeText(PAGE).then(
+    () => $("pickerout").textContent = "link tersalin: " + PAGE,
+    () => $("pickerout").textContent = PAGE);
+  $("picker").style.display = "block";
+  $("wallet").textContent = "browser ini tidak punya wallet bawaan — pilih di bawah:";
 };
+
+// kalau wallet di-inject setelah halaman dibuka (mis. ekstensi baru aktif)
+window.addEventListener("ethereum#initialized", () => { $("picker").style.display = "none"; }, { once: true });
 
 $("bscscan").onclick = () => window.open("https://bscscan.com/address/" + MARKET + "#writeContract", "_blank");
 
