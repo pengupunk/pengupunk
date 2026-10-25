@@ -7,6 +7,16 @@ The page for people is https://pengupunk.github.io/pengupunk/ ; this file is all
 ## Contracts (BNB Chain, chain id 56)
 
 - NFT, ERC-721 "Pengupunk" (PUNK): 0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a
+- Market "PenguMarket": 0xa2DcdE14A53d84bf488EB271E19d0bcc3c48A418
+  - fee 2% + royalty 2.5% (ERC2981) on every fill, both to the treasury
+  - list(uint256 tokenId, uint256 priceWei, uint64 durationDays) -> 0xca690ea2
+  - cancel(uint256 tokenId) -> 0x40e58ee5
+  - buy(uint256 tokenId) payable -> 0xd96a094a
+  - bid(uint256 tokenId, uint64 durationDays) payable (escrowed, refundable) -> 0x25e2ba9e
+  - acceptBid(uint256 tokenId) -> 0x2b1fd58a
+  - listing(uint256) -> 0x84a184de
+  - no owner, no pause, no withdraw
+  - web UI: https://pengupunk.github.io/pengupunk/market.html
 - Agent ID gate; minting wallet needs balanceOf > 0: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F
 - Treasury (receives payment directly): 0x8F3A3882Bfab76538f783c1C63Bf400eBC59CFfc
 

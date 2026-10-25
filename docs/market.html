@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pengupunk · market</title>
+<style>
+  :root{--bg:#0a0c10;--card:#11141b;--line:#2a2f3a;--txt:#e8e8e8;--dim:#8b93a3;--teal:#56d6c4;--gold:#f29426;--red:#ce3e3a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;padding:28px 16px}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 4px}
+  h1 span{color:var(--teal)}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+  .card h2{font-size:15px;margin:0 0 12px;color:var(--teal);letter-spacing:.04em;text-transform:uppercase}
+  label{display:block;font-size:12px;color:var(--dim);margin:10px 0 4px}
+  input{width:100%;padding:10px 12px;background:#0a0c10;border:1px solid var(--line);border-radius:8px;color:var(--txt);font:inherit}
+  button{margin-top:14px;padding:11px 16px;background:var(--teal);color:#06110f;border:0;border-radius:9px;font:inherit;font-weight:700;cursor:pointer}
+  button.alt{background:#1b202a;color:var(--txt);border:1px solid var(--line)}
+  button:disabled{opacity:.45;cursor:default}
+  .row{display:flex;gap:10px}.row>*{flex:1}
+  .out{margin-top:12px;font-size:13px;color:var(--dim);white-space:pre-wrap;word-break:break-all}
+  .out b{color:var(--txt)}
+  a{color:var(--gold)}
+  .foot{font-size:12px;color:var(--dim);margin-top:18px}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border:1px solid var(--line);border-radius:99px;color:var(--dim);margin-right:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pengu<span>market</span></h1>
+  <div class="sub">secondary market for Pengupunk · fee 2% + royalty 2.5% to treasury · no owner, no pause</div>
+
+  <div class="card">
+    <h2>wallet</h2>
+    <div class="out" id="wallet">belum terhubung</div>
+    <button id="connect">Connect wallet</button>
+    <button class="alt" id="bscscan">BscScan</button>
+  </div>
+
+  <div class="card">
+    <h2>cek keping</h2>
+    <label>token id</label>
+    <input id="qid" type="number" min="1" placeholder="16">
+    <button id="check">Cek</button>
+    <div class="out" id="qout"></div>
+  </div>
+
+  <div class="card">
+    <h2>jual (list)</h2>
+    <div class="row">
+      <div><label>token id</label><input id="lid" type="number" min="1" placeholder="16"></div>
+      <div><label>harga (BNB)</label><input id="lprice" type="text" placeholder="0.001"></div>
+      <div><label>hari</label><input id="ldays" type="number" min="1" max="365" value="7"></div>
+    </div>
+    <button id="approve" class="alt">1. Approve</button>
+    <button id="list">2. List</button>
+    <div class="out" id="lout"></div>
+  </div>
+
+  <div class="card">
+    <h2>beli / batalkan</h2>
+    <div class="row">
+      <div><label>token id</label><input id="bid" type="number" min="1" placeholder="16"></div>
+    </div>
+    <button id="buy">Buy (harga sesuai listing)</button>
+    <button id="cancel" class="alt">Cancel listing saya</button>
+    <div class="out" id="bout"></div>
+  </div>
+
+  <div class="foot">
+    <span class="tag">NFT 0xE2b3…5b5a</span><span class="tag">market 0xa2Dc…A418</span><br>
+    Listing disimpan on-chain. Pembeli membayar tepat sebesar harga listing. Dana penjual, fee, dan royalti dikirim dalam transaksi yang sama — kontrak tidak menyimpan dana (kecuali escrow bid yang bisa ditarik kembali).
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>
+const NFT = "0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a";
+const MARKET = "0xa2DcdE14A53d84bf488EB271E19d0bcc3c48A418";
+const RPC = "https://bsc-rpc.publicnode.com";
+const abiNft = [
+  "function ownerOf(uint256) view returns (address)",
+  "function getApproved(uint256) view returns (address)",
+  "function isApprovedForAll(address,address) view returns (bool)",
+  "function approve(address,uint256)",
+  "function balanceOf(address) view returns (uint256)"
+];
+const abiMkt = [
+  "function listing(uint256) view returns (address seller, uint96 price, uint64 expiry)",
+  "function list(uint256,uint256,uint64)",
+  "function cancel(uint256)",
+  "function buy(uint256) payable",
+  "function FEE_BPS() view returns (uint256)"
+];
+
+const ro = new ethers.JsonRpcProvider(RPC);
+const nftRo = new ethers.Contract(NFT, abiNft, ro);
+const mktRo = new ethers.Contract(MARKET, abiMkt, ro);
+let signer = null, account = null;
+const $ = (id) => document.getElementById(id);
+const fmt = (w) => ethers.formatEther(w) + " BNB";
+
+$("connect").onclick = async () => {
+  if (!window.ethereum) { $("wallet").textContent = "Tidak ada wallet di browser ini. Buka di dalam Binance app / MetaMask, atau pakai BscScan."; return; }
+  try {
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    const p = new ethers.BrowserProvider(window.ethereum);
+    signer = await p.getSigner();
+    account = await signer.getAddress();
+    $("wallet").innerHTML = "<b>" + account + "</b>";
+  } catch (e) { $("wallet").textContent = "gagal: " + (e.message || e); }
+};
+
+$("bscscan").onclick = () => window.open("https://bscscan.com/address/" + MARKET + "#writeContract", "_blank");
+
+async function showListing(id) {
+  const l = await mktRo.listing(id);
+  const owner = await nftRo.ownerOf(id).catch(() => null);
+  const exp = Number(l.expiry) ? new Date(Number(l.expiry) * 1000).toISOString().slice(0, 16).replace("T", " ") + " UTC" : "-";
+  return "token #" + id + "\nowner   : " + (owner || "tidak ada") + "\nseller  : " + (l.seller === ethers.ZeroAddress ? "(belum di-list)" : l.seller) +
+         "\nharga   : " + (l.seller === ethers.ZeroAddress ? "-" : fmt(l.price)) + "\nexpiry  : " + exp;
+}
+
+$("check").onclick = async () => {
+  const id = $("qid").value.trim(); if (!id) return;
+  $("qout").textContent = "membaca…";
+  try { $("qout").textContent = await showListing(id); } catch (e) { $("qout").textContent = "error: " + (e.shortMessage || e.message); }
+};
+
+async function needSigner(outEl) {
+  if (!signer) { outEl.textContent = "Connect wallet dulu."; return false; }
+  return true;
+}
+
+$("approve").onclick = async () => {
+  const id = $("lid").value.trim(); if (!id) return;
+  if (!await needSigner($("lout"))) return;
+  try {
+    const nft = new ethers.Contract(NFT, abiNft, signer);
+    $("lout").textContent = "menunggu konfirmasi approve…";
+    const tx = await nft.approve(MARKET, id);
+    await tx.wait();
+    $("lout").textContent = "approve ok\n" + tx.hash + "\nsilakan tekan List.";
+  } catch (e) { $("lout").textContent = "approve gagal: " + (e.shortMessage || e.message); }
+};
+
+$("list").onclick = async () => {
+  const id = $("lid").value.trim(), price = $("lprice").value.trim(), days = $("ldays").value.trim() || "7";
+  if (!id || !price) { $("lout").textContent = "isi token id dan harga."; return; }
+  if (!await needSigner($("lout"))) return;
+  try {
+    const mkt = new ethers.Contract(MARKET, abiMkt, signer);
+    const wei = ethers.parseEther(price);
+    $("lout").textContent = "mengirim list…";
+    const tx = await mkt.list(id, wei, days);
+    await tx.wait();
+    $("lout").textContent = "listing terpasang\n" + tx.hash + "\n\n" + await showListing(id);
+  } catch (e) { $("lout").textContent = "list gagal: " + (e.shortMessage || e.message); }
+};
+
+$("buy").onclick = async () => {
+  const id = $("bid").value.trim(); if (!id) return;
+  if (!await needSigner($("bout"))) return;
+  try {
+    const mkt = new ethers.Contract(MARKET, abiMkt, signer);
+    const l = await mktRo.listing(id);
+    if (l.seller === ethers.ZeroAddress) { $("bout").textContent = "token itu belum di-list."; return; }
+    $("bout").textContent = "membeli seharga " + fmt(l.price) + "…";
+    const tx = await mkt.buy(id, { value: l.price });
+    await tx.wait();
+    $("bout").textContent = "terbeli\n" + tx.hash;
+  } catch (e) { $("bout").textContent = "buy gagal: " + (e.shortMessage || e.message); }
+};
+
+$("cancel").onclick = async () => {
+  const id = $("bid").value.trim(); if (!id) return;
+  if (!await needSigner($("bout"))) return;
+  try {
+    const mkt = new ethers.Contract(MARKET, abiMkt, signer);
+    const tx = await mkt.cancel(id);
+    await tx.wait();
+    $("bout").textContent = "listing dibatalkan\n" + tx.hash;
+  } catch (e) { $("bout").textContent = "cancel gagal: " + (e.shortMessage || e.message); }
+};
+</script>
+</body>
+</html>
