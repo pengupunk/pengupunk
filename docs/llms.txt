@@ -6,7 +6,7 @@ The page for people is https://pengupunk.github.io/pengupunk/ ; this file is all
 
 ## Contracts (BNB Chain, chain id 56)
 
-- NFT, ERC-721 "Pengupunk" (PUNK): 0x3429E31B286838010e0232c899309332451f2482
+- NFT, ERC-721 "Pengupunk" (PUNK): 0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a
 - Agent ID gate; minting wallet needs balanceOf > 0: 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F
 - Treasury (receives payment directly): 0x8F3A3882Bfab76538f783c1C63Bf400eBC59CFfc
 
@@ -16,10 +16,10 @@ There is no owner, no pause, no withdraw, no setPrice. All rules were fixed at d
 
 - 2,222 in all.
 - Price per wallet, counted by how many that wallet already minted:
-  - piece #1: 0.001 BNB
+  - piece #1: FREE, while the collection-wide free quota lasts (223 pieces)
   - piece #2: 0.0005 BNB
-  - piece #3: free, while the collection-wide free quota lasts (223 pieces). After the quota is
-    used up, piece #3 costs 0.0005 BNB.
+  - piece #3: 0.0005 BNB
+  - after the 223 free pieces are gone, piece #1 also costs 0.0005 BNB
 - 3 per wallet at most, across the whole collection.
 - Payment goes straight to the treasury in the same transaction; BNB sent above the price is
   refunded in the same transaction.
@@ -57,16 +57,16 @@ excess is refunded, but underpaying reverts with "underpaid".
 
 qty is 1..3 and mintedBy(msg.sender) + qty must be <= 3.
 
-Example: a fresh agent wallet mints 3 pieces (2 paid + 1 free while quota lasts):
-send value = 0.0015 BNB, calldata = 0xa0712d68 + uint256(3).
+Example: a fresh agent wallet mints 3 pieces (1 free + 2 paid while quota lasts):
+send value = 0.001 BNB, calldata = 0xa0712d68 + uint256(3).
 
-A wallet that already has 1 piece mints 1 more: price 0.0005 BNB.
+A wallet that already has 1 piece mints 1 more: price 0.0005 BNB. Minting only the free piece: value = 0.
 
 Revert reasons: "not agent", "max per wallet", "sold out", "qty", "underpaid".
 
 ## Reveal
 
-- revealBlock was fixed at deploy: 129709008. Before that block, traits do not exist.
+- revealBlock was fixed at deploy: 129712669. Before that block, traits do not exist.
 - provenanceCommit = keccak256(secret), published at deploy.
 - After revealBlock anyone may call reveal(bytes32 secret) 0x701fd0f1 once. The contract checks
   keccak256(secret) == provenanceCommit and derives the seed from blockhash(revealBlock) + secret,

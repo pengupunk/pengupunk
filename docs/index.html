@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pengupunk — punk penguins for .ai agents</title>
-<meta name="description" content="2,222 punk penguins on BNB Chain. Agent ID gated. First piece 0.001 BNB, second 0.0005, third free. Traits and rarity sealed by block hash. No owner, no withdraw.">
+<meta name="description" content="2,222 punk penguins on BNB Chain. Agent ID gated. First piece free (223 quota), then 0.0005 each, max 3. Traits and rarity sealed by block hash. No owner, no withdraw.">
 <style>
   :root{--bg:#07090c;--panel:#0d1015;--line:#1c212b;--ink:#f2f0e8;--dim:#8b93a3;--teal:#56d6c4;--gold:#d4af37}
   *{box-sizing:border-box}
@@ -47,9 +47,9 @@
   <div class="panel">
     <table>
       <tr><th>piece</th><th>per wallet</th><th>price</th></tr>
-      <tr><td>#1</td><td>any agent</td><td>0.001 BNB <span style="color:var(--dim)">(~$0.74)</span></td></tr>
+      <tr><td>#1</td><td>any agent</td><td><span style="color:var(--teal)">free</span> while the 223-piece quota lasts <span style="color:var(--dim)">(then 0.0005)</span></td></tr>
       <tr><td>#2</td><td>same wallet</td><td>0.0005 BNB</td></tr>
-      <tr><td>#3</td><td>same wallet</td><td><span style="color:var(--teal)">free</span> while the 223-piece quota lasts</td></tr>
+      <tr><td>#3</td><td>same wallet</td><td>0.0005 BNB</td></tr>
     </table>
     <p style="margin:12px 0 0;font-size:13.5px;color:var(--dim)">Max 3 per wallet. Payment goes straight to the treasury. Overpayment is refunded in the same transaction.</p>
   </div>
@@ -81,19 +81,19 @@ revert    "not agent" · "max per wallet" · "sold out" · "underpaid"</pre>
   <p class="addr">commit <code id="commit">—</code></p>
 
   <h2>Contract</h2>
-  <p class="addr"><code>0x3429E31B286838010e0232c899309332451f2482</code></p>
+  <p class="addr"><code>0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a</code></p>
   <p class="ok">Source verified on BscScan — compiler v0.8.24, optimizer 200 runs. Read every rule yourself.</p>
 
   <footer>
     No owner. No pause. No withdraw. Royalty 2.5% via EIP-2981.<br>
-    <a href="https://bscscan.com/address/0x3429E31B286838010e0232c899309332451f2482">BscScan</a> ·
+    <a href="https://bscscan.com/address/0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a">BscScan</a> ·
     <a href="https://x.com/Pengupunkk">@Pengupunkk</a>
   </footer>
 </div>
 
 <script>
 (function(){
-  var C = "0x3429E31B286838010e0232c899309332451f2482";
+  var C = "0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a";
   var RPCS = ["https://bsc-dataseed.bnbchain.org","https://bsc-rpc.publicnode.com"];
   function hex(n){ return "0x" + n.toString(16).padStart(64,"0"); }
   function call(rpc, data){

@@ -18,8 +18,7 @@ contract Pengupunk is ERC721, ERC2981 {
 
     uint256 public constant MAX_SUPPLY = 2222;
     uint256 public constant MAX_PER_WALLET = 3;
-    uint256 public constant PRICE_FIRST = 0.001 ether;
-    uint256 public constant PRICE_SECOND = 0.0005 ether;
+    uint256 public constant PRICE_PAID = 0.0005 ether;
     uint256 public constant FREE_QUOTA = 223;
     uint96 public constant ROYALTY_BPS = 250;
 
@@ -34,7 +33,7 @@ contract Pengupunk is ERC721, ERC2981 {
 
     mapping(address => uint256) public mintedBy;
 
-    event Minted(address indexed to, uint256 firstId, uint256 qty, uint256 paid, bool thirdFree);
+    event Minted(address indexed to, uint256 firstId, uint256 qty, uint256 paid, bool freeUsed);
     event Revealed(bytes32 secret, uint256 seed);
 
     constructor(address registry_, address payable treasury_, uint256 revealDelayBlocks_, bytes32 provenanceCommit_)
@@ -58,11 +57,12 @@ contract Pengupunk is ERC721, ERC2981 {
         uint256 cost;
         for (uint256 i = 0; i < qty; i++) {
             uint256 slot = already + i + 1;
-            if (slot == 1) cost += PRICE_FIRST;
-            else if (slot == 2) cost += PRICE_SECOND;
-            else if (slot == 3) {
+            if (slot == 1) {
+                // keping pertama gratis selama kuota masih ada
                 if (freeLeft > 0) freeLeft -= 1;
-                else cost += PRICE_SECOND;
+                else cost += PRICE_PAID;
+            } else if (slot == 2 || slot == 3) {
+                cost += PRICE_PAID;
             } else revert("max per wallet");
         }
         return cost;
@@ -80,13 +80,13 @@ contract Pengupunk is ERC721, ERC2981 {
         uint256 already = mintedBy[msg.sender];
         mintedBy[msg.sender] = already + qty;
 
-        bool thirdFree;
+        bool freeUsed;
         uint256 freeLeft = FREE_QUOTA - freeGranted;
         for (uint256 i = 0; i < qty; i++) {
-            if (already + i + 1 == 3 && freeLeft > 0) {
+            if (already + i + 1 == 1 && freeLeft > 0) {
                 freeLeft -= 1;
                 freeGranted += 1;
-                thirdFree = true;
+                freeUsed = true;
             }
         }
 
@@ -102,7 +102,7 @@ contract Pengupunk is ERC721, ERC2981 {
             (bool back, ) = msg.sender.call{value: msg.value - cost}("");
             require(back, "refund");
         }
-        emit Minted(msg.sender, startId, qty, cost, thirdFree);
+        emit Minted(msg.sender, startId, qty, cost, freeUsed);
     }
 
     // ---------------------------------------------------------------- reveal
