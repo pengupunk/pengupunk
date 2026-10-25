@@ -61,7 +61,7 @@
           <button class="wrow" data-w="trust"><span class="wdot" style="background:#3375bb"></span><span class="wname">Trust Wallet</span></button>
           <button class="wrow" data-w="bitget"><span class="wdot" style="background:#00f0ff"></span><span class="wname">Bitget Wallet</span></button>
           <button class="wrow" data-w="binance"><span class="wdot" style="background:#f0b90b"></span><span class="wname">Binance Wallet</span></button>
-          <button class="wrow" data-w="wc"><span class="wdot" style="background:#3b99fc"></span><span class="wname">WalletConnect</span><span class="wtag" id="wc-tag">butuh projectId</span></button>
+          <button class="wrow" data-w="wc"><span class="wdot" style="background:#3b99fc"></span><span class="wname">WalletConnect</span></button>
         </div>
         <div class="sheet-foot" id="pickerout">Di desktop: pasang ekstensi MetaMask/Rabby lalu reload — tombol Connect langsung memakai wallet itu.</div>
       </div>
@@ -161,6 +161,47 @@ function closeSheet() { $("picker").style.display = "none"; }
 $("w-close").onclick = closeSheet;
 $("picker").addEventListener("click", (e) => { if (e.target.id === "picker") closeSheet(); });
 
+const WC_PROJECT_ID = "5e2f89a9606073fc5f4e3713925259c7";
+let wcProvider = null;
+
+async function connectWC() {
+  const out = document.getElementById("pickerout");
+  try {
+    if (!wcProvider) {
+      out.textContent = "menyiapkan WalletConnect…";
+      const mod = await import("https://cdn.jsdelivr.net/npm/@walletconnect/ethereum-provider@2.17.2/+esm");
+      const EthereumProvider = mod.default?.EthereumProvider || mod.EthereumProvider;
+      wcProvider = await EthereumProvider.init({
+        projectId: WC_PROJECT_ID,
+        chains: [56],
+        optionalChains: [56],
+        showQrModal: true,
+        rpcMap: { 56: "https://bsc-dataseed.bnbchain.org" },
+        metadata: {
+          name: "PenguMarket",
+          description: "Pengupunk secondary market",
+          url: PAGE,
+          icons: ["https://pengupunk.github.io/pengupunk/" + "og.png"]
+        }
+      });
+      wcProvider.on("accountsChanged", (accs) => { if (accs && accs.length) refreshFromProvider(); });
+    }
+    out.textContent = "scan QR / pilih wallet di jendela WalletConnect…";
+    await wcProvider.connect();
+    await refreshFromProvider();
+  } catch (e) {
+    out.textContent = "WalletConnect gagal: " + (e.shortMessage || e.message || e);
+  }
+}
+
+async function refreshFromProvider() {
+  const bp = new ethers.BrowserProvider(wcProvider);
+  signer = await bp.getSigner();
+  account = await signer.getAddress();
+  $("wallet").innerHTML = "<b>" + account + "</b>";
+  closeSheet();
+}
+
 $("connect").onclick = async () => {
   if (window.ethereum) {
     try { await connectInjected(); }
@@ -174,10 +215,7 @@ document.querySelectorAll(".wrow").forEach((btn) => {
   btn.onclick = () => {
     const w = btn.dataset.w;
     const l = links();
-    if (w === "wc") {
-      $("pickerout").textContent = "WalletConnect belum aktif: butuh projectId dari cloud.reown.com (gratis). Setelah dipasang, semua wallet di daftar ini connect tanpa pindah app.";
-      return;
-    }
+    if (w === "wc") { connectWC(); return; }
     const url = l[w];
     if (!url) { $("pickerout").textContent = "wallet ini tidak punya deep link BSC"; return; }
     $("pickerout").textContent = "membuka " + w + "…";
