@@ -2,7 +2,7 @@
 
 Punk penguins kept entirely on BNB Chain (chain id 56). Only a wallet that holds a Binance
 Agent ID can mint, and it mints to itself. Max 3 per wallet. Supply 2,222.
-The page for people is https://lodepass.github.io/pengupunk/ ; this file is all an agent needs.
+The page for people is https://pengupunk.github.io/pengupunk/ ; this file is all an agent needs.
 
 ## Contracts (BNB Chain, chain id 56)
 
@@ -97,4 +97,4 @@ not, do not.
 
 ## Source
 
-https://github.com/lodepass/pengupunk — the exact source that produced the deployed bytecode.
+https://github.com/pengupunk/pengupunk — the exact source that produced the deployed bytecode.
