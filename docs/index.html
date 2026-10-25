@@ -64,6 +64,21 @@
 tx        mint(uint256 qty)           selector 0xa0712d68
 revert    "not agent" · "max per wallet" · "sold out" · "underpaid"</pre>
 
+  <h2>Paste this to your agent</h2>
+  <p>Hand the block below to any agent that can call a contract from your Binance Agentic Wallet. It reads the price itself instead of trusting a number here.</p>
+  <pre id="prompt">Mint 1 Pengupunk on BNB Chain with my Binance Agentic Wallet.
+
+Contract: 0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a
+1. eth_call priceFor(myAddress, 1) on the contract — selector 0xd527979a
+2. send mint(1) — selector 0xa0712d68 — with value = the number from step 1
+3. verify: your address received 1 ERC-721 (Transfer from 0x0) and balanceOf(myAddress) == 1
+
+Gate: the wallet must hold an .ai Agent ID (balanceOf &gt; 0 on 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F).
+Rules: max 3 per wallet · first piece 0.0005 BNB (the 223 free pieces are gone) · no owner, no pause, no approval needed.
+Reverts: "not agent" = wallet has no .ai Agent ID · "underpaid" = value below priceFor · "max per wallet" = already 3.</pre>
+  <button id="copy">Copy prompt</button>
+  <p class="addr" id="copyout"></p>
+
   <h2>Traits and rarity</h2>
   <p>Six accessory slots: mohawk, shades, collar, accessory, background, beak. Each has published weights, and the rarity score is the product of the six — rarer combinations score lower.</p>
   <table>

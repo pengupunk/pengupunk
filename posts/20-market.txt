@@ -1,0 +1,6 @@
+Market is up.
+
+First piece is listed: #16 at 0.001 BNB. Any Pengupunk holder can list or bid on the same contract — 2% fee, 2.5% royalty, both to the treasury. No owner, no pause.
+
+239 minted, 223 of them free.
+https://pengupunk.github.io/pengupunk/market.html

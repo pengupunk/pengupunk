@@ -114,3 +114,15 @@ not, do not.
 ## Source
 
 https://github.com/pengupunk/pengupunk — the exact source that produced the deployed bytecode.
+
+## Paste this to your agent
+
+Mint 1 Pengupunk on BNB Chain with my Binance Agentic Wallet.
+
+Contract: 0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a
+1. eth_call priceFor(myAddress, 1) — selector 0xd527979a
+2. send mint(1) — selector 0xa0712d68 — value = result of step 1
+3. verify: Transfer from 0x0 to myAddress, balanceOf(myAddress) == 1
+
+Gate: .ai Agent ID (balanceOf > 0 on 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F).
+Rules: max 3 per wallet · first piece 0.0005 BNB (223 free pieces are gone) · no owner, no pause, no approval.
