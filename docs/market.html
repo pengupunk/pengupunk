@@ -42,6 +42,11 @@
 <body>
 <div class="wrap">
   <h1>Pengu<span>market</span></h1>
+  <div id="lang" style="display:flex;gap:6px;margin:10px 0 4px">
+    <button class="lng" data-lang="en" style="padding:6px 10px;font-size:12px">EN</button>
+    <button class="lng" data-lang="id" style="padding:6px 10px;font-size:12px">ID</button>
+    <button class="lng" data-lang="zh" style="padding:6px 10px;font-size:12px">中文</button>
+  </div>
   <div class="sub">secondary market for Pengupunk · fee 2% + royalty 2.5% to treasury · no owner, no pause</div>
 
   <div class="card">
@@ -295,6 +300,66 @@ $("cancel").onclick = async () => {
     $("bout").textContent = "listing dibatalkan\n" + tx.hash;
   } catch (e) { $("bout").textContent = "cancel gagal: " + (e.shortMessage || e.message); }
 };
+</script>
+
+<script>
+const I18N = {
+  "Connect a wallet": { id: "Hubungkan wallet", zh: "连接钱包" },
+  "Pilih wallet. Di HP, halaman ini akan dibuka di dalam browser wallet itu — di situ tombol connect benar-benar menandatangani.": {
+    zh: "选择钱包。在手机上，本页面会在该钱包的内置浏览器中打开，只有在那里连接才会真正签名。" },
+  "Di desktop: pasang ekstensi MetaMask/Rabby lalu reload — tombol Connect langsung memakai wallet itu.": {
+    zh: "桌面端：安装 MetaMask/Rabby 扩展后刷新，Connect 会直接使用该钱包。" },
+  "wallet": { id: "wallet", zh: "钱包" },
+  "belum terhubung": { id: "belum terhubung", zh: "未连接" },
+  "Connect wallet": { id: "Hubungkan wallet", zh: "连接钱包" },
+  "cek keping": { id: "cek keping", zh: "查询 NFT" },
+  "token id": { id: "token id", zh: "token id" },
+  "Cek": { id: "Cek", zh: "查询" },
+  "jual (list)": { id: "jual (list)", zh: "出售（挂单）" },
+  "harga (BNB)": { id: "harga (BNB)", zh: "价格 (BNB)" },
+  "hari": { id: "hari", zh: "天数" },
+  "1. Approve": { id: "1. Approve", zh: "1. 授权" },
+  "2. List": { id: "2. List", zh: "2. 挂单" },
+  "beli / batalkan": { id: "beli / batalkan", zh: "购买 / 取消" },
+  "Buy (harga sesuai listing)": { id: "Beli (harga sesuai listing)", zh: "购买（按挂单价格）" },
+  "Cancel listing saya": { id: "Batalkan listing saya", zh: "取消我的挂单" },
+  "secondary market for Pengupunk · fee 2% + royalty 2.5% to treasury · no owner, no pause": {
+    id: "pasar sekunder Pengupunk · fee 2% + royalti 2,5% ke treasury · tanpa owner, tanpa pause",
+    zh: "Pengupunk 二级市场 · 手续费 2% + 版税 2.5% 归金库 · 无 owner，无暂停" },
+  "Listing disimpan on-chain. Pembeli membayar tepat sebesar harga listing. Dana penjual, fee, dan royalti dikirim dalam transaksi yang sama — kontrak tidak menyimpan dana (kecuali escrow bid yang bisa ditarik kembali).": {
+    zh: "挂单存储在链上。买家按挂单价格付款，卖家所得、手续费与版税在同一笔交易中发送——合约不托管资金（出价托管可随时撤回）。" },
+  "Tidak ada wallet di browser ini. Buka di dalam Binance app / MetaMask, atau pakai BscScan.": {
+    zh: "此浏览器没有内置钱包。请在 Binance app / MetaMask 中打开，或使用 BscScan。" }
+};
+
+const ORIG = new Map();
+function collectTextNodes(node) {
+  const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+  let n;
+  while ((n = walker.nextNode())) {
+    const t = n.nodeValue.trim();
+    if (t && !ORIG.has(n)) ORIG.set(n, n.nodeValue);
+  }
+}
+function applyLang(lang) {
+  localStorage.setItem("pk_lang", lang);
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+  ORIG.forEach((original, node) => {
+    const key = original.trim();
+    const dict = I18N[key];
+    if (!dict) { node.nodeValue = original; return; }
+    if (lang === "en") { node.nodeValue = original; return; }
+    const tr = dict[lang] || original;
+    node.nodeValue = original.replace(key, tr);
+  });
+  document.querySelectorAll(".lng").forEach(b => b.style.opacity = b.dataset.lang === lang ? "1" : ".5");
+}
+document.addEventListener("DOMContentLoaded", () => {
+  collectTextNodes(document.body);
+  document.querySelectorAll(".lng").forEach(b => b.onclick = () => applyLang(b.dataset.lang));
+  const saved = localStorage.getItem("pk_lang") || (navigator.language || "en").slice(0, 2);
+  applyLang(["en","id","zh"].includes(saved) ? saved : "en");
+});
 </script>
 </body>
 </html>
