@@ -1,0 +1,35 @@
+{
+ "name": "Pengupunk #11",
+ "description": "Punk penguin, agent-gated on BNB Chain. No owner, no withdraw. Traits and rarity sealed by block hash.",
+ "attributes": [
+  {
+   "trait_type": "Tier",
+   "value": "Uncommon"
+  },
+  {
+   "trait_type": "Mohawk",
+   "value": "single"
+  },
+  {
+   "trait_type": "Shades",
+   "value": "narrow"
+  },
+  {
+   "trait_type": "Collar",
+   "value": "none"
+  },
+  {
+   "trait_type": "Accessory",
+   "value": "earring"
+  },
+  {
+   "trait_type": "Background",
+   "value": "teal"
+  },
+  {
+   "trait_type": "Beak",
+   "value": "goldtooth"
+  }
+ ],
+ "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iMzIwIiB2aWV3Qm94PSIwIDAgMzIwIDMyMCIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iIzBjMmEyOSIvPjxyZWN0IHg9IjEwMCIgeT0iNjAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTEwIiBmaWxsPSIjMTIxNDFhIi8+PHJlY3QgeD0iODAiIHk9IjE1MCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxMTIiIGZpbGw9IiMxMjE0MWEiLz48cmVjdCB4PSI2MCIgeT0iMTYwIiB3aWR0aD0iMjAiIGhlaWdodD0iODAiIGZpbGw9IiMwZTEwMTUiLz48cmVjdCB4PSIyNDAiIHk9IjE2MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGUxMDE1Ii8+PHJlY3QgeD0iMTEwIiB5PSIxODIiIHdpZHRoPSIxMDAiIGhlaWdodD0iNjgiIGZpbGw9IiNmMmYwZTgiLz48cmVjdCB4PSI5MCIgeT0iMjY0IiB3aWR0aD0iNDAiIGhlaWdodD0iMTYiIGZpbGw9IiNmMjk0MjYiLz48cmVjdCB4PSIxOTAiIHk9IjI2NCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE2IiBmaWxsPSIjZjI5NDI2Ii8+PHJlY3QgeD0iMTUwIiB5PSIxOCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjQ0IiBmaWxsPSIjNTZkNmM0Ii8+PHJlY3QgeD0iMTQwIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjEyIiBmaWxsPSIjM2ZiM2E0Ii8+PHJlY3QgeD0iMTQwIiB5PSIxMjgiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyMiIgZmlsbD0iI2YyOTQyNiIvPjxyZWN0IHg9IjE1NiIgeT0iMTQwIiB3aWR0aD0iMTAiIGhlaWdodD0iOCIgZmlsbD0iI2Q0YWYzNyIvPjxyZWN0IHg9IjEwOCIgeT0iOTYiIHdpZHRoPSIxMDQiIGhlaWdodD0iMTYiIGZpbGw9IiNhOGFlYmEiLz48cmVjdCB4PSIyMjIiIHk9IjExMiIgd2lkdGg9IjgiIGhlaWdodD0iOCIgZmlsbD0iI2Q0YWYzNyIvPjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIzMDgiIGhlaWdodD0iMzA4IiBmaWxsPSJub25lIiBzdHJva2U9IiM1NmQ2YzQiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjE2MCIgeT0iMzA2IiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNTZkNmM0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5VbmNvbW1vbiAjMTE8L3RleHQ+PC9zdmc+"
+}

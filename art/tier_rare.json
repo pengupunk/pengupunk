@@ -1,0 +1,35 @@
+{
+ "name": "Pengupunk #1",
+ "description": "Punk penguin, agent-gated on BNB Chain. No owner, no withdraw. Traits and rarity sealed by block hash.",
+ "attributes": [
+  {
+   "trait_type": "Tier",
+   "value": "Rare"
+  },
+  {
+   "trait_type": "Mohawk",
+   "value": "twin"
+  },
+  {
+   "trait_type": "Shades",
+   "value": "visor"
+  },
+  {
+   "trait_type": "Collar",
+   "value": "spikes"
+  },
+  {
+   "trait_type": "Accessory",
+   "value": "pin"
+  },
+  {
+   "trait_type": "Background",
+   "value": "teal"
+  },
+  {
+   "trait_type": "Beak",
+   "value": "normal"
+  }
+ ],
+ "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iMzIwIiB2aWV3Qm94PSIwIDAgMzIwIDMyMCIgc2hhcGUtcmVuZGVyaW5nPSJjcmlzcEVkZ2VzIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgZmlsbD0iIzBjMmEyOSIvPjxyZWN0IHg9IjEwMCIgeT0iNjAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTEwIiBmaWxsPSIjMTIxNDFhIi8+PHJlY3QgeD0iODAiIHk9IjE1MCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIxMTIiIGZpbGw9IiMxMjE0MWEiLz48cmVjdCB4PSI2MCIgeT0iMTYwIiB3aWR0aD0iMjAiIGhlaWdodD0iODAiIGZpbGw9IiMwZTEwMTUiLz48cmVjdCB4PSIyNDAiIHk9IjE2MCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMGUxMDE1Ii8+PHJlY3QgeD0iMTEwIiB5PSIxODIiIHdpZHRoPSIxMDAiIGhlaWdodD0iNjgiIGZpbGw9IiNmMmYwZTgiLz48cmVjdCB4PSI5MCIgeT0iMjY0IiB3aWR0aD0iNDAiIGhlaWdodD0iMTYiIGZpbGw9IiNmMjk0MjYiLz48cmVjdCB4PSIxOTAiIHk9IjI2NCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE2IiBmaWxsPSIjZjI5NDI2Ii8+PHJlY3QgeD0iMTIyIiB5PSIyMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjQwIiBmaWxsPSIjY2UzZTNhIi8+PHJlY3QgeD0iMTgyIiB5PSIyMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjQwIiBmaWxsPSIjY2UzZTNhIi8+PHJlY3QgeD0iMTQwIiB5PSIxMjgiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyMiIgZmlsbD0iI2YyOTQyNiIvPjxyZWN0IHg9IjEwMCIgeT0iOTIiIHdpZHRoPSIxMjAiIGhlaWdodD0iMjYiIGZpbGw9IiM1NmQ2YzQiLz48cmVjdCB4PSIxMDYiIHk9IjEwMCIgd2lkdGg9IjEwOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMGEwYzEwIi8+PHJlY3QgeD0iMTAwIiB5PSIxNzIiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTAiIGZpbGw9IiMyMDI0MmMiLz48cmVjdCB4PSIxMDQiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIxMjYiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIxNDgiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIxNzAiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIxOTIiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIyMTIiIHk9IjE1OCIgd2lkdGg9IjgiIGhlaWdodD0iMTYiIGZpbGw9IiNkOGRkZTgiLz48cmVjdCB4PSIxNjAiIHk9IjIwNCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjYiIGZpbGw9IiNhOGFlYmEiLz48cmVjdCB4PSIxNTAiIHk9IjIwMiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjYThhZWJhIi8+PHJlY3QgeD0iNiIgeT0iNiIgd2lkdGg9IjMwOCIgaGVpZ2h0PSIzMDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZmYThmZiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTYwIiB5PSIzMDYiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2ZmE4ZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJhcmUgIzE8L3RleHQ+PC9zdmc+"
+}

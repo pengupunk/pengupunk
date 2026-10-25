@@ -1,0 +1,10 @@
+{
+  "name": "pengupunk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pengupunk — agent-gated collectible on BNB Chain (paid-first mint, block-hash provenance)",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile"
+  }
+}
