@@ -1,0 +1,35 @@
+{
+ "updatedAt": "2026-10-26T10:13:05.972Z",
+ "block": 129879549,
+ "nft": "0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a",
+ "market": "0xa2DcdE14A53d84bf488EB271E19d0bcc3c48A418",
+ "totalMinted": "331",
+ "scanned": 331,
+ "floor": "1000000000000000",
+ "listings": [
+  {
+   "id": 16,
+   "seller": "0xdcdB85c9CaD6aaf82528C60FC36ED1F9cBF6c732",
+   "price": "1000000000000000",
+   "expiry": 1793529451,
+   "bidder": null,
+   "amount": null,
+   "bidExpiry": null
+  },
+  {
+   "id": 265,
+   "seller": "0xaF14698988398A1C2ddae24AB4A8039A00C984Ce",
+   "price": "1000000000000000",
+   "expiry": 1793539070,
+   "bidder": null,
+   "amount": null,
+   "bidExpiry": null
+  }
+ ],
+ "bids": [],
+ "tiers": {
+  "16": "Common",
+  "265": "Rare"
+ },
+ "sales": null
+}
