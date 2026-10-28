@@ -1,10 +1,10 @@
 {
- "updatedAt": "2026-10-28T12:56:38.489Z",
- "block": 130285040,
+ "updatedAt": "2026-10-28T18:43:47.826Z",
+ "block": 130331315,
  "nft": "0xE2b3D9043fccc76e6Ce13f84346735F1AA375b5a",
  "market": "0xa2DcdE14A53d84bf488EB271E19d0bcc3c48A418",
- "totalMinted": "337",
- "scanned": 337,
+ "totalMinted": "340",
+ "scanned": 340,
  "floor": "1000000000000000",
  "listings": [
   {
